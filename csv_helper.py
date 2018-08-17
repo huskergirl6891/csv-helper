@@ -26,10 +26,15 @@ def read_csv_inputs(inputs):
     
 
 # function to copy all rows from a csv file into an array
-def copy_all_rows(file_path):
+def copy_rows(file_path):
     # Empty array to hold data from each row of a csv file
     csv_data = []
-    
+
+    # Add arg with default value 0 to be copy all rows; positive int is 
+    # # of rows to ignore from the top and negative int is # of rows 
+    # to ignore from the last row up;  could also write generic
+    # copy function with start_row and end_row and use specific
+    # functions like copy_skip_top_rows or copy_skip_bottom_rows
     # Open csv and read each row  
     full_path = os.path.abspath(file_path)    
     with open(full_path, newline='') as csvfile:
@@ -37,6 +42,14 @@ def copy_all_rows(file_path):
         for row in reader:
             csv_data.append(row)
     return csv_data
+
+def copy_skip_top_rows(start_row):
+    copy_rows(file_path, start_row, -1)
+    
+#def copy_skip_bottom_rows(end_row):
+#    #count number of rows
+#    total_rows = 
+#    copy_rows(file_path, 0, end_row)
 
 # helper function to write to a csv
 def csv_writer(data, path):
@@ -61,7 +74,7 @@ def batch_copy(array_of_inputs, output):
     inputs_array = read_csv_inputs(array_of_inputs)
     total_data = []   
     for csv_file in inputs_array:
-        data = copy_all_rows(csv_file)
+        data = copy_rows(csv_file)
         for row in data:
             total_data.append(row)
     combine_csv_data(total_data, output)
