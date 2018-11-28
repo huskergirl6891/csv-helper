@@ -27,34 +27,26 @@ def read_csv_inputs(inputs):
     
 
 # function to copy all rows from a csv file into an array
-def copy_rows(file_path, start_row):
+def copy_rows(file_path, start_row, insert_value):
     # Empty array to hold data from each row of a csv file
     csv_data = []
-
-    # Add arg with default value 0 to copy all rows; positive int is 
-    # # of rows to ignore from the top and negative int is # of rows 
-    # to ignore from the last row up;  could also write generic
-    # copy function with start_row and end_row and use specific
-    # functions like copy_skip_top_rows or copy_skip_bottom_rows
-    # Open csv and read each row  
+    # Opens each csv file and reads each line.  Optional user
+    # input for start_row is passed into this function. To 
+    # include everything, either enter no arg or enter 1 
+    # (i.e. to start at the first row). To ignore the first row 
+    # and start at the second row, enter 2. The helper function 
+    # subtracts one to account for Python starting loop 
+    # iteration at 0.
     full_path = os.path.abspath(file_path)    
     with open(full_path, newline='') as csvfile:
         reader = csv.reader(csvfile, delimiter=',')
         idx = 0
         for idx, row in enumerate(reader):
             if idx >= start_row:
-                #print("index = " + str(idx))
+                if insert_value != "":
+                    row.append(insert_value)
                 csv_data.append(row)
-    #print(csv_data)
     return csv_data
-
-#def copy_skip_top_rows(start_row):
-#    copy_rows(file_path, start_row, -1)
-    
-#def copy_skip_bottom_rows(end_row):
-#    #count number of rows
-#    total_rows = 
-#    copy_rows(file_path, 0, end_row)
 
 # helper function to write to a csv
 def csv_writer(data, path):
@@ -75,11 +67,22 @@ def combine_csv_data(input_data, output_path):
     csv_writer(input_data, output)
 
 # main function to call helper functions to combine csv data into "output.csv"        
-def batch_copy(array_of_inputs, output, start_row=0):
+def batch_copy(array_of_inputs, output, start_row=0, insert_value_array=""):
     inputs_array = read_csv_inputs(array_of_inputs)
+    print(insert_value_array)
     total_data = []   
-    for csv_file in inputs_array:
-        data = copy_rows(csv_file, start_row)
+    for num, csv_file in enumerate(inputs_array):
+        # check if no input was given to be added to each row
+        if insert_value_array == "":
+            insert_value = ""
+        else:
+            # use the value from each item in the input array
+            # to insert into each file
+            try:
+                insert_value = insert_value_array[num]
+            except:
+                insert_value = ""
+        data = copy_rows(csv_file, start_row, insert_value)
         for row in data:
             total_data.append(row)
     combine_csv_data(total_data, output)
