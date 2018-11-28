@@ -10,5 +10,7 @@ import os
 import sys
 
 temp = sys.argv[1]
+start_row_input = int(sys.argv[2])
+print(start_row_input)
 test = os.path.abspath(temp)
-csv_helper.batch_copy(test, test)
+csv_helper.batch_copy(test, test, start_row_input)
