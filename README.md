@@ -13,7 +13,7 @@ The main function in the csv-helper is batch_copy which takes an array of input 
 # Example Use
 An example script (read_TM_logs.py) is included to demonstrate how the csv-helper library can be used.  This script can be called from the command line like this:
 
-'python C:/directory_path/read_TM_logs.py C:/path_to_csv_folder 2'
+`python C:/directory_path/read_TM_logs.py C:/path_to_csv_folder 2`
 
 The third argument is the full path to the folder where the CSV files are located to be combined.  In this example, the same folder is used for the output as well.  The last argument is the starting row to be copied in each CSV, and is optional.
 
